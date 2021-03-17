@@ -1,0 +1,666 @@
+const fetch = require("node-fetch");
+const { executablePath } = require("puppeteer");
+const puppeteer = require("puppeteer-extra");
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const AdsPlugin = require("puppeteer-extra-plugin-adblocker");
+puppeteer.use(StealthPlugin(), AdsPlugin());
+const colors = require("colors");
+const { HttpsProxyAgent } = require("https-proxy-agent");
+const proxyChain = require("proxy-chain");
+const axios = require("axios");
+let set_cookie;
+let size_id;
+// const proxy = new HttpsProxyAgent("http://tahadaboussi:aiobotagents@40.69.157.121:3128");
+const dayjs = require("dayjs");
+let Proxy_list = [];
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+let FINAL_proxy;
+const prompt = require("prompt-sync")();
+const sitekey = "6LeWwRkUAAAAAOBsau7KpuC9AV-6J8mhw4AjC3Xz";
+const url = "https://www.supremenewyork.com/";
+KeyWordd = "Firecracker Down Jacket";
+Color = "Black";
+const {
+  Worker,
+  isMainThread,
+  workerData,
+  threadId,
+} = require("worker_threads");
+Proxy_list = [];
+let pUser = "",
+  pPass = "",
+  TOKEN_LIST = [];
+let Final_product_Id;
+time1 = new Date();
+/* -------------------------------------------------------------------------- */
+/*                               Sleep function                               */
+/* -------------------------------------------------------------------------- */
+test1 = new Date();
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+/* -------------------------------------------------------------------------- */
+/*                                     ATC                                    */
+/* -------------------------------------------------------------------------- */
+
+var ATC_headers = {
+  "User-Agent":
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/80.0.3987.95 Mobile/15E148 Safari/604.1",
+  Accept: "application/json",
+  "Accept-Language": "en-US,en;q=0.5",
+  "X-Requested-With": "XMLHttpRequest",
+  "Content-Type": "application/x-www-form-urlencoded",
+  Origin: "https://www.supremenewyork.com",
+  DNT: "1",
+  Connection: "keep-alive",
+  Referer: "https://www.supremenewyork.com/mobile/",
+  Pragma: "no-cache",
+  "Cache-Control": "no-cache",
+  TE: "Trailers",
+};
+let success = "";
+var atc_url = `https://www.supremenewyork.com/shop/${Final_product_Id}/add.json`;
+async function atc(User, Pass, Proxyy, atc_url, Process_ID) {
+  const proxy = new HttpsProxyAgent(`http://${User}:${Pass}@${Proxyy}`);
+  const params = new URLSearchParams();
+  params.append("size", size_id);
+  params.append("style", Style_id);
+  params.append("qty", 1);
+  // params.append("commit", "add to basket");
+  // params.append("confirmmodalshown",true);
+  
+  ATC_Time = new Date();
+  var res = await axios.post(atc_url, params, {
+    httpsAgent: proxy,
+    //   proxy : {
+    //   host : "127.0.0.1" ,
+    //   port : "8888"
+    // },
+    ATC_headers,
+  });
+  set_cookie = res.headers["set-cookie"];
+  // console.log(res.headers)
+  // console.log(`${set_cookie}`.green);
+  console.log("----------------------------------------------------------------------------------------".red);
+  console.log("ATC finshed".green);
+  console.log("ATC Time :".green + `${new Date() - ATC_Time}`.yellow);
+  console.log("----------------------------------------------------------------------------------------".red);
+  console.log(res.data)
+  try{
+  if (res.data[0].in_stock == true) {
+    success = true
+    console.log("successfully ATC For ID:".green + `${Process_ID}`.yellow);
+    console.log("----------------------------------------------------------------------------------------".red);
+  } else {
+    console.log("Failed to ATC ".red);
+    await atc(User, Pass, Proxyy, atc_url, Process_ID)
+  }
+}catch(e){
+  console.log("Failed to ATC ".red)
+}
+  // console.log(res.data.cart[0].in_stock);
+}
+let i = 0;
+
+Product_fetch = async (User, Pass, Proxyy, Process_ID,key_word,sizee,Style,category) => {
+  const proxy = new HttpsProxyAgent(`http://${User}:${Pass}@${Proxyy}`);
+  now = new Date();
+  const https = require("https");
+  https.get("https://www.supremenewyork.com/mobile_stock.json",
+    { agent: proxy },
+    (res) => {
+      // console.log(res)
+      var body = "";
+      res.on("data", function (chunk) {
+        body += chunk;
+      });
+      res.on("end", function () {
+        var resp = JSON.parse(body);
+        data_wanted = resp.products_and_categories["new"];
+        // console.log(data_wanted)
+        let desiredItem2
+        try{
+         desiredItem2 = data_wanted.find((item) =>
+          item.name.includes(key_word)
+        );
+      }catch(e){
+        console.log("Could not find", key_word , "Trying Again")
+      }
+        // console.log("Http Time", desiredItem2.id);
+        if (i > 1000) {
+          desiredItem2 = {
+            id: "Cant find the item , Please Check your keywords.".red,
+          };
+        }
+        try {
+          console.log(desiredItem2.id);
+        } catch (e) {
+          i++;
+          console.log(`Number Of tries: `.green + ` ${i}`.yellow);
+          test = new Date();
+          console.log(`retrying time :`.green + `${test - now}`.red);
+          Product_fetch(User, Pass, Proxyy, Process_ID);
+        }
+        try {
+          Final_product_Id = desiredItem2.id;
+        } catch (e) {
+        
+        }
+        console.log(
+          "----------------------------------------------------------------------------------------"
+            .red
+        );
+      });
+    }
+  );
+  while (typeof Final_product_Id == "undefined") {
+    await sleep(100);
+  }
+  // https.get(`https://www.supremenewyork.com/shop/hwz7l51x4.json`,
+  Size_t = new Date();
+  https.get(
+    `https://www.supremenewyork.com/shop/${Final_product_Id}.json`,
+    { agent: proxy },
+    (res) => {
+      // console.log(res)
+      var body = "";
+      res.on("data", function (chunk) {
+        body += chunk;
+      });
+      res.on("end", function () {
+        var resp = JSON.parse(body);
+        // console.log(resp)
+        desired_color = resp.styles;
+        // console.log(data_wanted)
+        // console.log(desired_color)
+        // console.log(desired_color)
+        const desiredItem = desired_color.find((item) =>
+          item.name.includes(Style)
+        );
+        // console.log("Http Time", desiredItem2.id);
+        Style_id = desiredItem.id;
+        size = desiredItem.sizes;
+        console.log(sizee)
+        for (i = 0; i < size.length; i++) {
+          console.log(size[i])
+          if (size[i].stock_level == 1) {
+            size_id = size[i].id;
+          }else if (size[i].stock_level == 0){
+            size_id = size[i].id;
+
+            console.log("product Out Of stock".red.bold)
+          }
+          else("Fail ")
+        }
+        console.log("----------------------------------------------------------------------------------------".red);
+        console.log("-------------------------------------".red +`ATC INFO ${Process_ID}`.green.bold +"-------------------------------------------".red);
+        console.log("Style ID : ".green + `${Style_id}`.yellow);
+        console.log("Size ID : ".green + `${size_id}`.yellow);
+        console.log("Taken Time :".green + `${new Date() - Size_t}`.yellow);
+      });
+    }
+  );
+  while (typeof Style_id == "undefined" && typeof chk == "undefined") {
+    await sleep(500);
+  }
+  atc(User, Pass, Proxyy, atc_url, Process_ID);
+  /* -------------------------------------------------------------------------- */
+  /*                              Multi Processing                              */
+  /* -------------------------------------------------------------------------- */
+};
+// console.log(desired_product.name)
+/* -------------------------------------------------------------------------- */
+/*                              Captcha Harvester                             */
+/* -------------------------------------------------------------------------- */
+Captcha_Harvester = async (Proxyy, Puser, Ppass) => {
+  const options = {
+    width: 480,
+    height: 750,
+    host: url,
+    sitekey,
+  };
+  const browser = await puppeteer.launch({
+    executablePath:"D:\\Desktop\\node_modules\\puppeteer\\.local-chromium\\win64-848005\\chrome-win\\chrome.exe",
+    headless: false,
+    devtools: false,
+    ignoreHTTPSErrors: true,
+    ignoreDefaultArgs: "--enable-automation",
+    // excludeSwitches: 'enable-automation',
+    args: [
+     " --enable-automation",
+      "--no-sandbox",
+      "--ignore-certificate-errors",
+      "--enable-features=NetworkService",
+      "--allow-running-insecure-content",
+      "--disable-web-security",
+      `--window-size=${options.width},${options.height}`,
+      "--proxy-server=" + Proxyy,
+    ],
+  });
+  const page = await browser.newPage();
+  await page.authenticate({
+    username: Puser,
+    password: Ppass,
+  });
+  await page.setViewport({
+    width: 480,
+    height: 750,
+  });
+  await page.setUserAgent(
+    `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36`
+  );
+  await page.setRequestInterception(true);
+  const captchaReset = () => window.grecaptcha.reset();
+  await page.exposeFunction("sendCaptcha", (token) => {
+    const captchaItem = {
+      token,
+      timestamp: dayjs().format(),
+      host: options.host,
+      sitekey: options.sitekey,
+    };
+
+    TOKEN_LIST.push(captchaItem.token);
+    token = TOKEN_LIST[0];
+    if (typeof TOKEN_LIST[0] !== "undefined") {
+      console.log("Captcha Solved".green);
+      try {
+        browser.close();
+      } catch (e) {
+        console.log("Captcha Harvester Closed");
+        if (e.includes("Target closed")) {
+          console.log("Captcha Window closed".green);
+        } else "error in captcha harvester".red;
+      }
+    }
+    (async () => {
+      await page.evaluate(captchaReset);
+    })();
+  });
+  const captchaTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Captcha Harvester</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    .flex {
+      display: flex;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="flex justify-center items-center mt-6">
+    <div id="captchaFrame" class="g-recaptcha" data-callback="sendCaptcha" data-sitekey=${options.sitekey} data-theme="dark"></div>
+  </div>
+</body>
+</html>
+`;
+  page.on("request", (req) => {
+    if (req.url() === options.host) {
+      req.respond({
+        status: 200,
+        contentType: "text/html",
+        body: captchaTemplate,
+      });
+    } else {
+      req.continue();
+    }
+  });
+  await page.goto(options.host);
+};
+/* -------------------------------------------------------------------------- */
+/*                                    MAIN                                    */
+/* -------------------------------------------------------------------------- */
+MAIN = async (User, Pass, Proxyy, Process_ID,key_word,sizee,Style,category) => {
+  const p_proxy = `http://${User}:${Pass}@${Proxyy}`;
+  const newProxyUrl = await proxyChain.anonymizeProxy(p_proxy);
+  // console.log(newProxyUrl);W
+  const tick = new Date();
+  const browser = await puppeteer.launch({
+    headless: false,
+    ignoreDefaultArgs: "--enable-automation",
+    executablePath:"D:\\Desktop\\node_modules\\puppeteer\\.local-chromium\\win64-848005\\chrome-win\\chrome.exe",
+    args: [
+      "start-maximized",
+      "--disable-blink-features=AutomationControlled",
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-ipv6",
+      "--disable-infobars",
+      "--window-position=0,0",
+      "--ignore-certifcate-errors",
+      "--ignore-certifcate-errors-spki-list",
+      '--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36"',
+      // "--proxy-server=104.43.139.250:3128"
+      `--proxy-server=${newProxyUrl}`,
+      // `--proxy-server=127.0.0.1:8888`,
+      // '--user-data-dir=%userprofile%\\AppData\\Local\\Temp\\puppeteer_dev_profile-2jutFo'
+    ],
+  });
+  const page =  await browser.newPage();
+let timee = new Date()
+
+  // await page.setRequestInterception(true);
+  // page.on("request", (req) => {
+  //   if (req.resourceType() == "font" || req.resourceType() == "image") {
+  //     req.abort();
+  //   } else {
+  //     req.continue();
+  //   }
+  // });
+  await page.evaluateOnNewDocument(() => {
+    // We can mock this in as much depth as we need for the test.
+    window.navigator.chrome = {
+      runtime: {},
+      // etc.
+    };
+  });
+  // Bypass hairline feature
+  await page.evaluateOnNewDocument(() => {
+    const elementDescriptor = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      "offsetHeight"
+    );
+    Object.defineProperty(HTMLDivElement.prototype, "offsetHeight", {
+      ...elementDescriptor,
+      get: function () {
+        if (this.id === "modernizr") {
+          return 1;
+        }
+        return elementDescriptor.get.apply(this);
+      },
+    });
+  });
+  await page.evaluateOnNewDocument(() => {
+    Object.defineProperty(window, "navigator", {
+      value: new Proxy(window.navigator, {
+        get: function (target, name) {
+          if (name === "webdriver") return undefined;
+          return typeof target[name] === "function"
+            ? target[name].bind(target)
+            : target[name];
+        },
+      }),
+    });
+  });
+  await page.evaluateOnNewDocument(() => {
+    const originalQuery = window.navigator.permissions.query;
+    return window.navigator.permissions.query = (parameters) => (
+      parameters.name === 'notifications' ?
+        Promise.resolve({ state: Notification.permission }) :
+        originalQuery(parameters)
+    );
+  });
+  await page.evaluateOnNewDocument(() => {
+    delete navigator.__proto__.webdriver;
+});
+// await page.evaluateOnNewDocument(() => {
+//   Object.defineProperty(navigator, 'webdriver', ()=>{})
+// });
+await page.evaluateOnNewDocument(() => {
+  navigator.mediaDevices.getUserMedia = navigator.webkitGetUserMedia = navigator.mozGetUserMedia = navigator.getUserMedia = webkitRTCPeerConnection = RTCPeerConnection = MediaStreamTrack = undefined;
+});
+  tack = new Date();
+  console.log("Launching The browser Time :"+  `${tack - tick}`.yellow);
+  const now = new Date();
+  //! -------------------------------------------------------------------------- */
+  //!                                 Fetch part                                 */
+  //! -------------------------------------------------------------------------- */
+  let i = 1;
+  await Product_fetch(User, Pass, Proxyy, Process_ID,key_word,sizee,Style,category);
+  await console.log("Fetching PID".green);
+  try {
+    while (typeof set_cookie == "undefined") {
+      neww = new Date();
+      await sleep(100);
+      newwer = new Date();
+      // console.log(newwer - neww);
+      i++;
+      if (i > 100) {
+        console.log("Couldnt Find the id please check keywords".red);
+        break;
+      }
+    }
+  } catch (e) {
+    console.log("Cant Find The ID Please Check the KeyWords");
+  }
+  if(success !== true){
+    console.log("Failed To Complete Action of Product :".red, `${key_word}`.yellow)
+    try{
+    browser.close()
+  }catch(e){
+    console.log("")
+  }
+    return;
+  }
+  await page.setExtraHTTPHeaders({
+    //  "Host": "www.supremenewyork.com",
+    Connection: "keep-alive",
+    "User-Agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36",
+    Accept:
+      "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Dest": "empty",
+    Accept: "application/json",
+    "Sec-Fetch-User": "1",
+    "Sec-Fetch-Dest": "document",
+    referer: `https://www.supremenewyork.com/mobile/`,
+    "Accept-Encoding": " gzip, deflate, br",
+    "Accept-Language": " en-GB,en-US;q=0.9,en;q=0.8",
+    Cookie: `${set_cookie}`,
+    // "dnt": "1",
+    // "sec-fetch-site" : "same-origin"
+  });
+  // console.log("Loading Website".green);
+  times = new Date();
+  const Browser = new Date();
+
+  await page.goto("https://www.supremenewyork.com/checkout");
+  console.log(`${new Date() - times}`.yellow.bold);
+  const browser_end = new Date();
+  console.log("Taken time 1 ".green, browser_end - Browser);
+  console.log("Final time : " , new Date() - timee)
+  try {
+    await page.waitForSelector("#order_billing_name", { visible: true });
+    await page.$eval("#order_billing_name", (el) => (el.value = "Jack L Wood"));
+    await page.$eval("#order_email", (el) => (el.value = "ewacga6udr9@temporary-mail.net"));
+    await page.$eval("#order_tel", (el) => (el.value = "077 7525 0226"));
+    await page.$eval("#bo", (el) => (el.value = "8 Buckingham Rd"));
+    await page.$eval("#oba3", (el) => (el.value = "$th Floor"));
+    await page.$eval("#order_billing_address_3", (el) => (el.value = ""));
+    await page.$eval("#order_billing_zip", (el) => (el.value = "BD23 9FW"));
+    await page.$eval("#order_billing_city", (el) => (el.value = "THORPE"));
+    await page.$eval("#vval", (el) => (el.value = "146"));
+    await page.$eval("#cnb", (el) => (el.value = "4368095565392762"));
+    await page.$eval("#credit_card_year", (el) => (el.value = "2022"));
+    await page.$eval("#credit_card_month", (el) => (el.value = "09"));
+    await page.click("#cart-cc > fieldset > p > label > div > ins");
+
+    // await page.type("#order_billing_name", "Jack L Wood");
+    // await page.type("#order_email", "ewacga6udr9@temporary-mail.net");
+    // await page.type("#order_tel", "077 7525 0226");
+    // await page.type("#bo", "8 Buckingham Rd");
+    // await page.type("#oba3", "$th Floor");
+    // await page.type("#order_billing_address_3", "");
+    // // await page.type("#credit_card_month","09");
+    // // await page.type("#credit_card_year","2023");
+    // await page.type("#order_billing_zip", "BD23 9FW");
+    // await page.type("#order_billing_city", "THORPE");
+    // // await page.type("#order_billing_state", "AZ");
+    // await page.type("#vval", "146");
+    // await page.type("#cnb","4368095565392762");
+    // await page.$eval("#credit_card_year", (el) => (el.value = "2022"));
+    // // await page.$eval("#credit_card_month", (el) => (el.value = "09"));
+    // console.log("Final Time :".green, `${new Date() - test1}`.red);
+    // // await page.click('#pay > input');
+  } catch (e) {
+    console.log(e)
+    console.log("An error IN the billing info ocured".red);
+  }
+  let CCTIME = new Date();
+  // console.log("TIme Finalo ".green + new Date() - time1)
+  try {
+    Captcha_Harvester(Proxyy, User, Pass);
+  } catch (e) {
+    if (e.includes("Target closed")) {
+      console.log("Captcha Window closed".green);
+    } else "error in captcha harvester".red;
+  }
+  console.log("Solving Captcha for Worker ID of ".green + Process_ID);
+
+  while (typeof TOKEN_LIST[0] == "undefined") {
+    await sleep(500);
+    // if (typeof TOKEN_LIST[0] !== "undefined") {
+    //   // console.log(TOKEN_LIST[0]);
+    // }
+  }
+  token = TOKEN_LIST[0];
+  await page.evaluate(`document.querySelector('#g-recaptcha-response').value = '` + token + `';`);
+  await page.evaluate(function () {
+    checkoutAfterCaptcha();
+  });
+  var lastResponse = '';
+  while (lastResponse == '') {
+    // console.log(lastResponse)
+    var lastResponse = await page.evaluate(`
+    if ($('#cart-count')[0]) {
+        $('#cart-count').text();
+    } else if ($('#confirmation')[0]) {
+        $('#confirmation').text();
+    } else if ($('#cart-cc > fieldset > div.errors')[0]) {
+        $('#cart-cc > fieldset > div.errors').text();
+    } else {
+        "";
+    }
+`);
+    if (lastResponse != '') {
+        if (lastResponse.includes("Your order has been successfully process") //US
+            ||
+            lastResponse.includes("you will receive a shipping confirmation with the tracking number") ||
+            lastResponse.includes("ご注文内容の明細は既にご登録頂いたEメールアドレスに送信されております") //JP
+            ||
+            lastResponse.includes("Your order has been successfully submitted") //UK
+            ||
+            lastResponse.includes("Your order has been submitted")) {
+              console.log("----------------------------------------------------------------------------------------".red);
+              console.log("Checkout successfully".green.bold);
+              console.log("----------------------------------------------------------------------------------------".red);
+        }
+        else if(lastResponse.includes("Unfortunately we are unable to process your order. This could be due to your payment being declined by your card issuer Card")){
+          console.log("----------------------------------------------------------------------------------------".red);
+          console.log("Credit Card".red.bold);
+          console.log("----------------------------------------------------------------------------------------".red);
+        } 
+        else {
+          console.log('cmd=LastMessage;msg=' + lastResponse);
+        }
+    } else {
+      console.log('waiting for the last response ')
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+}
+};
+/* -------------------------------------------------------------------------- */
+/*                                product fetch                               */
+/* -------------------------------------------------------------------------- */
+Multi_processing = (() => {
+  return async () => {
+    if (isMainThread) {
+//! -------------------------------------------------------------------------- */
+//!                              BIlling Info                                  */
+//! -------------------------------------------------------------------------- */
+      billing = [ {
+        //   Keyword: "Half Zip Hooded Sweatshirt",
+        //   Color: "Black",
+        //   size: "Large",
+        //   category : `Sweatshirt`
+        // },
+        // {
+          Keyword: "Dunk",
+          Color: "Black",
+          size: '8' ,
+          // size: "8.5",
+          category : "Shoes"
+        },
+        //   Keyword: "Supreme®/Nike® Snakeskin Beanie",
+        //   Color: "Black",
+        // size: "N/A",
+        //   category : `Hats`
+       
+      ];
+//? -------------------------------------------------------------------------- */
+//?                                 Proxy input                                */
+//? -------------------------------------------------------------------------- */
+      let ProxyList = await prompt(" Input Proxy List ");
+      Proxy_list = ProxyList.split("\r");
+//! -------------------------------------------------------------------------- */
+//!                           Starting MultiThreading                          */
+//! -------------------------------------------------------------------------- */
+      for (let i = 0; i < Proxy_list.length; i++) {
+        new Worker(__filename, {
+          workerData: {
+            Proxy_list: Proxy_list[i],
+            KeyWord: billing[i].Keyword,
+            Color: billing[i].Color,
+            size: billing[i].size,
+            category: billing[i].category,
+            index: i,
+          },
+        });
+      }
+    } else {
+      // User, Pass, Proxyy, Process_ID
+      let key_word = workerData.KeyWord;
+      let Style = workerData.Color; 
+      let size = workerData.size; 
+      let category = workerData.category;
+      // console.log(key_word);
+      /* -------------------------------------------------------------------------- */
+      /*                               Proxie spliting                              */
+      /* -------------------------------------------------------------------------- */
+      parts = workerData.Proxy_list.split(":");
+      if (parts.length == 4) {
+        Aproxy = parts[0] + ":" + parts[1];
+        pUser = parts[2];
+        pPass = parts[3];
+      }
+      // console.log( `************************************************`.red + `Task Number ${workerData.index  1}`.yellow.bold +`************************************************`.red);
+      console.log("************************************************".red +`Task Number ${workerData.index + 1}`.yellow.bold +"************************************************".red
+      );
+      // console.log("Proxies : ".green + parts);
+      console.log("Worker Of ID ".green + threadId);
+      /* -------------------------------------------------------------------------- */
+      /*                                Main Function                               */
+      /* -------------------------------------------------------------------------- */
+      try {
+        // console.log(KeyWord)
+        // Product_fetch(pUser,pPass,Aproxy,threadId)
+        // key_word,sizee,color,category
+        // console.log(key_word)
+        // console.log(Style)
+        console.log(key_word)
+        MAIN(pUser, pPass, Aproxy,threadId,key_word,size,Style,category);
+      } catch (e) {
+        console.log("Failed".red);
+        console.log(e);
+      }
+    }
+  };
+})();
+// while ( typeof set_cookie =="undefined"){
+//   await sleep(100)
+// }
+Multi_processing();
