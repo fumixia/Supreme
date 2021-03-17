@@ -1,0 +1,424 @@
+const colors = require("colors");
+let hnkdtrace ;
+let serv ;
+let _state ;
+var event = new Date();
+var options = { weekday: 'long' };
+ticket_gen = async () => {
+  const browser = await puppeteer.launch({
+    executablePath:"D:\\Desktop\\node_modules\\puppeteer\\.local-chromium\\win64-848005\\chrome-win\\chrome.exe",
+  });
+  const page = await browser.newPage();
+  await page.goto('https://www.supremenewyork.com/');
+  x = await page.cookies()
+ for (let i = 0 ; i < x.length ; i++){
+
+     console.log(x[i])
+    //     if(x[i].name == "ntbcc"){
+    //         ntbcc = x[i].value
+    //         console.log( ntbcc.length)
+    //         console.log("ntbcc :".green,x[i].value)
+    // console.log("----------------------------------------------------------------------------------------".red);
+    //     }
+        if(x[i].name == "_state"){
+            _state = "_state="+x[i].value+"; path=/;"
+            // console.log("_state :".green,x[i].value)
+    // console.log("----------------------------------------------------------------------------------------".red);
+        }
+        if(x[i].name == "hnkdtrace"){
+            hnkdtrace = "hnkdtrace="+x[i].value+"; path=/;"
+            // console.log("hnkdtrace :".green,x[i].value)
+    // console.log("----------------------------------------------------------------------------------------".red);
+        }
+        if(x[i].name == "serv"){
+            serv = "serv="+x[i].value+"; path=/;"
+            // console.log("serv :".green,x[i].value)
+        }
+}
+  await browser.close();
+};
+const axios = require("axios");
+const tunnel = require("tunnel");
+const puppeteer = require("puppeteer-extra");
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const AdsPlugin = require("puppeteer-extra-plugin-adblocker");
+puppeteer.use(StealthPlugin(), AdsPlugin());
+const { HttpsProxyAgent } = require("https-proxy-agent");
+// :3128:malihdabboussi:aiobotagents
+// const proxy2 = new HttpsProxyAgent("http://tahadaboussi:aiobotagents@13.67.232.195:3128");
+const proxy2 = new HttpsProxyAgent("http://aiox:aioxsneakers@104.43.130.120:3128");
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+rq_time = new Date()
+// 13.67.232.195:3128:tahadaboussi:aiobotagents
+// 40.122.73.22:3128:kkheir:kkheir
+// 104.43.245.238:3128:tahadaboussi:aiobotagents
+const dayjs = require("dayjs");
+const { time } = require("console");
+const sitekey = "6LeWwRkUAAAAAOBsau7KpuC9AV-6J8mhw4AjC3Xz";
+const url = "https://www.supremenewyork.com/";
+Keyword = "Firecracker Down Jacket";
+Color = "Black";
+// const httpsAgent = tunnel.httpsOverHttp({
+//   proxy: {
+//     host: "127.0.0.1",
+//     port: "8888"
+//   }
+// });
+let Proxy_list = [];
+let TOKEN_LIST = [];
+var size_id ;
+let Style_id;
+let chk;
+let set_cookie;
+var timestamp = Date.now();
+var test  ;
+Captcha_Harvester = async () => {
+  const options = {
+    width: 480,
+    height: 750,
+    host: url,
+    sitekey,
+  };
+  const browser = await puppeteer.launch({
+    executablePath:"D:\\Desktop\\node_modules\\puppeteer\\.local-chromium\\win64-848005\\chrome-win\\chrome.exe",
+    ignoreDefaultArgs: "--enable-automation",
+    
+    headless: false,
+    devtools: false,
+    ignoreHTTPSErrors: true,
+    args: [
+      "--no-sandbox",
+      "--ignore-certificate-errors",
+      "--enable-features=NetworkService",
+      "--allow-running-insecure-content",
+      "--disable-web-security",
+      `--window-size=${options.width},${options.height}`,
+      // "--proxy-server=13.67.232.195:3128",
+      // 13.67.232.195:3128:tahadaboussi:aiobotagents
+    ],
+  });
+  const page = await browser.newPage();
+  // await page.authenticate({
+  //   username: "tahadaboussi",
+  //   password: "aiobotagents",
+  // });
+  await page.setViewport({
+    width: 480,
+    height: 750,
+  });
+  await page.setUserAgent(`Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36`);
+  await page.setRequestInterception(true);
+  const captchaReset = () => window.grecaptcha.reset();
+  await page.exposeFunction("sendCaptcha", (token) => {
+    const captchaItem = {
+      token,
+      timestamp: dayjs().format(),
+      host: options.host,
+      sitekey: options.sitekey,
+    };
+    // data: '{"store_credit_id":"","from_mobile":"1","cookie-sub":"%7B%2285695%22%3A1%7D","current_time":1614253999406,"same_as_billing_address":"1","scerkhaj":"CKCRSUJHXH","order[billing_name]":" George McLean","order[email]":" zn2jnsjrvl@fakemailgenerator.net","order[tel]":" 7802305239","order[billing_address]":"41 Nith Street","order[billing_address_2]":"145","order[billing_address_3]":"","order[billing_city]":"GLAN Y LLYN","order[billing_zip]":"CF4 5HN","order[billing_state]":"KY","order[billing_country]":"USA","credit_card[type]":"credit card","credit_card[cnb]":"4485 5695 2430 6454","credit_card[month]":" 06","credit_card[year]":"2023","rand":"","order[terms]":1,"is_from_android":"1","atok":"sckrsarur","credit_card[ovv]":"464"}',
+    TOKEN_LIST.push(captchaItem.token);
+    token = TOKEN_LIST[0];
+    console.log(
+      "----------------------------------------------------------------------------------------"
+        .red
+    );
+    console.log("Captcha Solved".green);
+    console.log(
+      "----------------------------------------------------------------------------------------"
+        .red
+    );
+    (async () => {
+      await page.evaluate(captchaReset);
+    })();
+  });
+  const captchaTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Captcha Harvester</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    .flex {
+      display: flex;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="flex justify-center items-center mt-6">
+    <div id="captchaFrame" class="g-recaptcha" data-callback="sendCaptcha" data-sitekey=${options.sitekey} data-theme="dark"></div>
+  </div>
+</body>
+</html>
+`;
+  page.on("request", (req) => {
+    if (req.url() === options.host) {
+      req.respond({
+        status: 200,
+        contentType: "text/html",
+        body: captchaTemplate,
+      });
+    } else {
+      req.continue();
+    }
+  });
+  await page.goto(options.host);
+  if (typeof token !== "undefined") {
+    try {
+      browser.close();
+    } catch (e) {
+      console.log("Captcha Harvester  closed ");
+    }
+  }
+
+};
+// Captcha_Harvester()
+// Captcha_Harvester();
+let cc_url = "https://www.supremenewyork.com/checkout";
+var atc_url = `https://www.supremenewyork.com/shop/173945/add.json`;
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+cc = async () => {
+    console.log("Generating Ticket ")
+    await ticket_gen()
+    console.log("Finished  Ticket ")
+
+    let Final_cookie = [
+            `${test}`,
+            `${serv}`,
+            `${hnkdtrace}`,
+    ]
+    console.log( Final_cookie)
+  C_header = {
+    Connection: "keep-alive",
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36",
+    Accept:"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Dest": "empty",
+     Accept: "application/json",
+    "Sec-Fetch-User": "1",
+    "Sec-Fetch-Dest": "document",
+    referer: `https://www.supremenewyork.com/mobile/`,
+    "Accept-Encoding": " gzip, deflate, br",
+    "Accept-Language": " en-GB,en-US;q=0.9,en;q=0.8",
+     Cookie: `${Final_cookie}`,
+  };
+  console.log("sa");
+  let token = TOKEN_LIST[0];
+  const cc_params = new URLSearchParams();
+  cc_params.append('"store_credit_id"', "");
+  cc_params.append("from_mobile", "1");
+  cc_params.append("cookie-sub", `%7B%22${size_id}%22%3A1%7D`);
+  cc_params.append("current_time", timestamp);
+  cc_params.append("same_as_billing_address", "1");
+  cc_params.append("scerkhaj", "CKCRSUJHXH");
+  cc_params.append("order[billing_name]", "George McLean");
+  cc_params.append("order[email]", "zn2jnsjrvl@fakemailgenerator.net");
+  cc_params.append("order[tel]", "7802305239");
+  cc_params.append("order[billing_address]", "41 Nith Street");
+  cc_params.append("order[billing_address_2]", "145");
+  cc_params.append("order[billing_address_3]", "");
+  cc_params.append("order[billing_city]", "GLAN Y LLYN");
+  cc_params.append("order[billing_zip]", "KY");
+  cc_params.append("order[billing_country]", "USA");
+  cc_params.append("credit_card[type]", "credit card");
+  cc_params.append("credit_card[cnb]", "4485 5695 2450 6454");  
+  cc_params.append("credit_card[month]", "06");
+  cc_params.append("credit_card[year]", "2023");        
+  cc_params.append("rand", "");
+  cc_params.append("order[terms]", 1);
+  cc_params.append("is_from_android", 1);
+  cc_params.append("g-recaptcha-response", token);
+  cc_params.append("atok", "sckrsarur");
+  cc_params.append("credit_card[ovv]", "464");
+  var cc_res = await axios.post(cc_url, cc_params, {
+    headers: {
+      Connection: "keep-alive",
+      "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Mobile Safari/537.36",
+      Accept:"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+      // "Content-Length": "1226",
+      "Content-Length": "1183",
+      "Sec-Fetch-Site": "same-origin",
+      "X-Requested-With": "XMLHttpRequest",
+      "Sec-Fetch-Mode": "cors",
+      "Sec-Fetch-Dest": "empty",
+      "Content-Type": "application/x-www-form-urlencoded ",
+      Origin: "https://www.supremenewyork.com",
+      Accept: "application/json",
+      "Sec-Fetch-User": "1",
+      "Sec-Fetch-Dest": "document",
+      referer: `https://www.supremenewyork.com/mobile/`,
+      "Accept-Encoding": " gzip, deflate, br",
+      "Accept-Language": "en-US,en;q=0.9",
+      Cookie: `${Final_cookie}`,
+      is_from_android: "1"
+    },
+    // httpsAgent: proxy2,
+    proxy : {
+      host : "127.0.0.1" ,
+      port : "8888"
+    },
+  });
+  console.log("----------------------------------------------------------------------------------------".red);
+  console.log("Checkout Finshed".green.bold);
+  console.log("----------------------------------------------------------------------------------------".red);
+  console.log(cc_res.data);
+  // console.log(cc_res.cookie);
+  console.log("----------------------------------------------------------------------------------------".red);
+};
+async function atc(atc_url) {
+  var ATC_headers = {
+    "User-Agent":
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/80.0.3987.95 Mobile/15E148 Safari/604.1",
+    Accept: "application/json",
+    "Accept-Language": "en-US,en;q=0.5",
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/x-www-form-urlencoded",
+    Origin: "https://www.supremenewyork.com",
+    DNT: "1",
+    Connection: "keep-alive",
+    Referer: "https://www.supremenewyork.com/mobile/",
+    Pragma: "no-cache",
+    "Cache-Control": "no-cache",
+    TE: "Trailers",
+  };
+  const params = new URLSearchParams();
+  params.append("s", size_id);
+  params.append("st", Style_id);
+  params.append("h", 1);
+  params.append("chk", chk);
+  time1 = new Date()
+  var res = await axios.post(atc_url, params, {
+    httpsAgent: proxy2,
+    ATC_headers,
+  });
+  set_cookie = res.headers["set-cookie"];
+  // console.log(res.headers)
+  console.log(set_cookie)
+  console.log(set_cookie[2])
+    test =  set_cookie[2]
+
+  // return ;
+  // console.log("ATC finshed")
+  if (res.data.cart[0].in_stock == true) {
+    console.log("----------------------------------------------------------------------------------------".red);
+    console.log("successful ATC ".green);
+    console.log(`ATC Time : ${new Date() - time1}`.yellow)
+    console.log("----------------------------------------------------------------------------------------".red);
+  } else {
+    console.log("Failed to ATC ".red);
+  }
+  console.log("----------------------------------------------------------------------------------------".red);
+}
+Product_fetch = async () => {
+  const proxyy = new HttpsProxyAgent("http://LV16100241-LV1610023998-46:5a17399947@198.24.171.42:7383");
+  // const proxy = new HttpsProxyAgent("http://127.0.0.1:8888");
+  now = new Date();
+  const https = require("https");
+  https.get("https://www.supremenewyork.com/mobile_stock.json",
+    { agent: proxy2 },
+    (res) => {
+      // console.log(res)
+      var body = "";
+      res.on("data", function (chunk) {
+        body += chunk;
+        // console.log(body)
+      });
+      res.on("end", function () {
+        var resp = JSON.parse(body);
+        data_wanted = resp.products_and_categories.Skate;
+        // console.log(data_wanted)
+        const desiredItem2 = data_wanted.find((item) =>
+          item.name.includes("Supreme®/Spitfire® Classic Wheels")
+          // item.name.includes("Supreme®/Spitfire® Classic Wheels")
+
+        );
+        // console.log("Http Time", desiredItem2.id);
+        Final_product_Id = desiredItem2.id;
+        console.log(
+          "----------------------------------------------------------------------------------------"
+            .red
+        );
+        //? -------------------------------------------------------------------------- */
+        //?                      Can be used for random color/size                     */
+        //? -------------------------------------------------------------------------- */
+        console.log("Product  ID:".green, Final_product_Id);
+        let later = new Date();
+        console.log("Taken time 1 :".green, later - now);
+        console.log(
+          "----------------------------------------------------------------------------------------"
+            .red
+        );
+      });
+    }
+  );
+  while (typeof Final_product_Id == "undefined") {
+    await sleep(1000);
+  }
+  // const proxy = new HttpsProxyAgent("http://thanhxa:aiobotagents@51.141.43.213:3128");
+  https.get(`https://www.supremenewyork.com/shop/${Final_product_Id}.json`,
+    { agent: proxy2 },
+    (res) => {
+      // console.log(res)
+      var body = "";
+      res.on("data", function (chunk) {
+        body += chunk;
+      });
+      res.on("end", function () {
+        var resp = JSON.parse(body);
+        // console.log(resp)
+        desired_color = resp.styles;
+        // console.log(data_wanted)
+        // console.log(desired_color)
+        // console.log(desired_color)
+        const desiredItem = desired_color.find((item) =>
+          item.name.includes("Red")
+        );
+        // console.log("Http Time", desiredItem2.id);
+        Style_id = desiredItem.id;
+        chk = desiredItem.chk;
+        size = desiredItem.sizes;
+        for (i = 0 ; i < size.length ; i++ ){
+          console.log(size[i])
+         if (size[i].name == "51MM"){
+            size_id = size[i].id
+         }
+        }
+        console.log("----------------------------------------------------------------------------------------".red);
+        console.log("Style ID : ".green + `${Style_id}`.yellow);
+        console.log("Chk Id : ".green + `${chk}`.yellow);
+        console.log("Size ID : ".green + `${size_id}`.yellow)
+        console.log("----------------------------------------------------------------------------------------".red);
+      });
+    }
+  );
+  while (typeof Style_id == "undefined" && typeof chk == "undefined") {
+    await sleep(500);
+  }
+  atc(atc_url);
+  while (typeof set_cookie == "undefined") {
+    await sleep(100);
+  }
+  console.log("----------------------------------------------------------------------------------------".red);
+  console.log(`Full time ${new Date() - rq_time}`)
+  console.log("Solving Captcha".green);
+  console.log("----------------------------------------------------------------------------------------".red);
+//   while (typeof TOKEN_LIST[0] == "undefined") {
+//     await sleep(1000);
+//   }
+  cc();
+};
+Product_fetch();
